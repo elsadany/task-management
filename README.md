@@ -1,66 +1,155 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Below is a **README.md** file for your Task Management System project. This file provides instructions for setting up the project, running migrations, seeding the database, and testing the API using Postman.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+# Task Management System
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is a RESTful API for a Task Management System built with Laravel. It allows users to create tasks, assign dependencies, and manage task statuses. The system includes role-based access control (RBAC) to ensure that only authorized users can perform specific actions.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## **Features**
+- **User Authentication**: Login and logout using JWT tokens.
+- **Role-Based Access Control**:
+  - **Managers**: Can create/update tasks and assign tasks to users.
+  - **Users**: Can view tasks assigned to them and update task status.
+- **Task Management**:
+  - Create, update, and delete tasks.
+  - Add dependencies between tasks.
+  - Prevent circular dependencies.
+  - Retrieve task details with dependencies.
+- **Database Seeding**: Pre-populated with roles, users, and sample tasks.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## **Technologies Used**
+- **Backend**: Laravel 11
+- **Database**: MySQL
+- **Authentication**: Laravel sanctum
+- **Testing**: Postman
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## **Setup Instructions**
 
-## Laravel Sponsors
+### **1. Clone the Repository**
+```bash
+git clone <repository_link>
+cd Path
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### **2. Install Dependencies**
+```bash
+composer install
+```
 
-### Premium Partners
+### **3. Set Up Environment File**
+1. Copy the `.env.example` file to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Generate the application key:
+   ```bash
+   php artisan key:generate
+   ```
+3. Update the `.env` file with your database credentials:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=task_management
+   DB_USERNAME=root
+   DB_PASSWORD=your_password
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### **4. Run Migrations and Seed the Database**
+```bash
+php artisan migrate
+php artisan db:seed
+```
 
-## Contributing
+### **5. serve project**
+```bash
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## **API Testing with Postman**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### **1. Import Postman Collection**
+1. Open Postman.
+2. Click on **Import** and select the `task-management.postman_collection.json` file.
 
-## Security Vulnerabilities
+### **2. Login as Manager**
+- Use the following credentials to log in as a **Manager**:
+  - **Email**: `admin@admin.com`
+  - **Password**: `12345678`
+- Use the **Login** endpoint to get a JWT token.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### **3. Login as User**
+- Use the **Get Users** endpoint to retrieve a list of users.
+- Use any user's email and the password `12345678` to log in as a **User**.
 
-## License
+### **4. Test Endpoints**
+- **Tasks**:
+  - Create a new task.
+  - Add dependencies to a task (circular dependencies are prevented).
+  - Retrieve task details with dependencies.
+  - Update task status.
+- **Users**:
+  - Retrieve a list of users.
+  - View tasks assigned to a specific user.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## **API Endpoints**
+
+### **Authentication**
+- **POST /api/login**: Log in and get a JWT token.
+- **POST /api/logout**: Log out and invalidate the JWT token.
+
+### **Tasks**
+- **POST /api/tasks**: Create a new task (Manager only).
+- **GET /api/tasks**: Retrieve a list of tasks (filter by status, due date, or assignee).
+- **GET /api/tasks/{id}**: Retrieve details of a specific task including dependencies.
+- **PUT /api/tasks/{id}**: Update task details (Manager only).
+- **PATCH /api/tasks/{id}/complete**: Update task status (User only).
+- **POST /api/tasks/{id}/dependencies**: Add a dependency to a task (Manager only).
+
+### **Users**
+- **GET /api/users**: Retrieve a list of users (Manager only).
+
+---
+
+## **Database Schema**
+
+### **Tables**
+- **users**: Stores user details.
+- **roles**: Defines user roles (Manager, User).
+- **tasks**: Stores task details.
+- **task_dependencies**: Stores dependencies between tasks.
+
+### **Relationships**
+- A **user** belongs to a **role**.
+- A **task** is assigned to a **user**.
+- A **task** can have multiple **dependencies**.
+
+---
+
+## **Prevent Circular Dependencies**
+When adding a dependency to a task, the system checks for circular dependencies to prevent infinite loops. If a circular dependency is detected, an error is returned.
+
+---
+
+## **Seed Data**
+The database is seeded with the following data:
+- **Roles**: Manager, User.
+- **Users**:
+  - Manager: `admin@admin.com` (password: `12345678`).
+  - Users: Randomly generated users (password: `12345678`).
+- **Tasks**: Sample tasks with dependencies.
+
+---
+
+
